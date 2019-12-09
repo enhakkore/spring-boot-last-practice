@@ -35,9 +35,8 @@ dependencies {
     compile('org.projectlombok:lombok')
     annotationProcessor('org.projectlombok:lombok')
 
-    //
-//    compile('com.fasterxml.jackson.core:jackson-databind')
-//    compile('com.google.code.gson:gson')
+    //for mustache
+    compile('org.springframework.boot:spring-boot-starter-mustache')
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
