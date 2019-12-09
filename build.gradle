@@ -27,8 +27,17 @@ repositories {
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
 
+    //for RDB
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('com.h2database:h2')
+
+    //for lombok
     compile('org.projectlombok:lombok')
     annotationProcessor('org.projectlombok:lombok')
+
+    //
+//    compile('com.fasterxml.jackson.core:jackson-databind')
+//    compile('com.google.code.gson:gson')
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
