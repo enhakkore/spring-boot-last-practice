@@ -30,6 +30,9 @@ _이것을 끝으로 프로젝트 만들자_&#128640;
     }
     ```  
 * p73, 메서드 체이닝이란...  
+* p142, 브라우저의 스코프  
+* p.145, table 태그에서 thead, tbody, tfoot이 구조적 의미를 가지는 것처럼 table의 구조적 의미(colgroup 등)  
+
 
 ---  
 
@@ -50,4 +53,7 @@ __build.gradle:__
 * p99, 그림 3-11과 그림 3-12의 차이가 없음.  
 * p102, Domain Model의 네 번째 항목에 마침표가 없음.  
 * p105, @PutMapping -> @PostMapping  
-* p113, PostsUpdateRequestDto와 Posts에 update 메서드에 대한 언급이 없어서 아쉬움.
+* p113, PostsUpdateRequestDto와 Posts에 update 메서드에 대한 언급이 없어서 아쉬움.  
+* p134, 세 번째 줄, estRestTemplate -> TestRestTemplate  
+* p146, 코드 설명에서 ①과 ②의 처음 부분에 { 가 빠져있음.  
+* 
