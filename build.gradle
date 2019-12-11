@@ -27,6 +27,9 @@ repositories {
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
 
+    //for security
+    compile('org.springframework.boot:spring-boot-starter-oauth2-client')
+
     //for RDB
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('com.h2database:h2')
