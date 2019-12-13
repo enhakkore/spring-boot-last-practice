@@ -49,11 +49,4 @@ __build.gradle:__
 ---  
 
 #### 어색한 부분  
-* p37, mavenCentral과 jcenter를 둘 다 사용하기로 했지만 mavenCentral만 있음.  
-* p99, 그림 3-11과 그림 3-12의 차이가 없음.  
-* p102, Domain Model의 네 번째 항목에 마침표가 없음.  
-* p105, @PutMapping -> @PostMapping  
-* p113, PostsUpdateRequestDto와 Posts에 update 메서드에 대한 언급이 없어서 아쉬움.  
-* p134, 세 번째 줄, estRestTemplate -> TestRestTemplate  
-* p146, 코드 설명에서 ①과 ②의 처음 부분에 { 가 빠져있음.  
-* 
+*  오타 & 오류 → [https://github.com/jojoldu/freelec-springboot2-webservice/issues](https://github.com/jojoldu/freelec-springboot2-webservice/issues)  
