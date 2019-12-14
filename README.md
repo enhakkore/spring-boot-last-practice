@@ -46,6 +46,28 @@ __build.gradle:__
     }
     ```  
 
+* Amazon Linux AMI<sup>Amazon Machine Image</sup> 1에 Java 11 설치  
+    1. [Amazon Corretto 11용 다운로드 페이지](https://docs.aws.amazon.com/ko_kr/corretto/latest/corretto-11-ug/downloads-list.html)에서 .rpm 파일 다운로드  
+    2. 로컬파일 설치
+    ```bash
+    $ sudo yum localinstall <.rpm 파일 경로>
+    ```  
+    3. Java 버전 확인  
+    ```bash
+    $ java -version
+    ```  
+    __결과 :__  
+    ```
+    [ec2-user@ip-***-**-**-*** ~]$ java -version
+    openjdk version "11.0.3" 2019-04-16 LTS
+    OpenJDK Runtime Environment Corretto-11.0.3.7.1 (build 11.0.3+7-LTS)
+    OpenJDK 64-Bit Server VM Corretto-11.0.3.7.1 (build 11.0.3+7-LTS, mixed mode)
+    ```  
+    4. 설치 후 Java 버전이 11이 아닌경우 아래 명령어를 사용하여 버전 변경  
+    ```bash
+    $ sudo alternatives --config java
+    ```  
+    
 ---  
 
 #### 어색한 부분  
