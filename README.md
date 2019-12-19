@@ -32,7 +32,11 @@ _이것을 끝으로 프로젝트 만들자_&#128640;
 * p73, 메서드 체이닝이란...  
 * p142, 브라우저의 스코프  
 * p.145, table 태그에서 thead, tbody, tfoot이 구조적 의미를 가지는 것처럼 table의 구조적 의미(colgroup 등)  
-
+* p.301  
+    * `$kill -15 <PID>` : -15 옵션은 정상종료, -9 옵션은 강제종료.
+    * `$ls -tr` : 현재 위치의 폴더와 파일들을 시간순으로 정렬(최신이 가장 위)한 후 거꾸로 정렬(최신이 가장 아래)  
+    * `$tail -n 1` : 원래 tail은 입력의 마지막 10줄을 출력한다. -n 옵션을 사용하면 기본값 10 대신 원래는 값을 설정할 수 있다.  
+* __JVM__이 애플리케이션을 운영하면서 메모리를 관리하는 방법.
 
 ---  
 
@@ -67,7 +71,10 @@ __build.gradle:__
     ```bash
     $ sudo alternatives --config java
     ```  
-    
+
+* __There is insufficient memory for the Java Runtime Environment to continue.__  
+    jar 파일 실행시 _There is insufficient memory for the Java Runtime Environment to continue._ 를 만나게 되었다. 해결 방법은 jar 파일 실행시 `-XX:MaxMetaspaceSize=512m -XX:MetaspaceSize=256m` 옵션을 추가하면 되는데, JVM 메모리 관련 이슈이기 때문에 왜 이런 문제가 일어났는지 정확히 이해하지는 못했다....  
+    참고 링크 : [https://elfinlas.github.io/2018/06/08/jvm-memory-out/](https://elfinlas.github.io/2018/06/08/jvm-memory-out/)
 ---  
 
 #### 어색한 부분  
