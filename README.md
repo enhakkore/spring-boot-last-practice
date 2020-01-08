@@ -44,7 +44,7 @@ _이것을 끝으로 프로젝트 만들자_&#128640;
     사용된 기술 : Travis CI, AWS S3<sup>Simple Storage Service</sup>, AWS Code0Deploy, AWS IAM  
 
     1. Travis CI와 github 계정을 연동한 후 CI/CD를 적용할 저장소를 활성화시킨다.  
-    2. 저장소의 루트 디렉토리에 `.travis.yml` 파일을 만든다.  
+    2. 저장소의 루트 디렉토리에 Travis CI를 설정하기 위한 `.travis.yml` 파일을 만든다.  
         1. 프로젝트 언어 지정, 컴파일러와 컴파일러의 버전 지정.  
         2. Travis CI를 어떤 브랜치에 push될 때 수행할지, 브랜치 지정.  
         3. Travis CI의 Home 디렉터리에서 캐시로 사용할 디렉터리 지정  
@@ -63,6 +63,41 @@ _이것을 끝으로 프로젝트 만들자_&#128640;
     5. 빌드 결과물을 S3에 올리도록 `.travis.yml`에 코드 추가  
         1. deploy 전에 모든 build 결과물을 하나의 zip파일로 만들고 새로운 디렉토리를 생성해 새로운 디렉토리로 zip파일을 이동시킨다.  
         2. deploy 단계에서는 provider를 s3로 지정하고 해당 저장소의 환경변수로 설정했던 AWS key 엑세스 키와 비밀 엑세스 키를 가져온다. s3 버킷 이름과 사용하고 있는 AWS 지역을 지정한다. 이 단계에서 작업 디렉토리가 리셋되거나 빌드 작업(`git stash --all`)을 하면서 만들어지는 변화(build artifact)가 삭제되는 것을 막기위해 skip_clenup을 true로 설정한다. zip 파일을 private으로 접근하기 위해 acl을 private으로 설정한다. local_dir을 새로 생성한 디렉토리로 설정하여 새로 생성한 디렉토리의 파일만 S3로 deploy될 수 있게 한다. S3에 빌드 결과물이 완전히 deploy될 때까지 기다리도록 wait-util-deployed를 true로 설정한다.  
+    6. EC2가 CodeDeploy를 연동 받을 수 있게 IAM `역할` 생성  
+        사용할 서비스 `EC2` 선택, 정책에서 `AmazonEC2RoleforAWSCodeDeploy` 선택.  
+    7. EC2에 역할 등록  
+    8. EC2에 CodeDeploy 에이전트 설치  
+    9. CodeDeploy에서 EC2에 접근할 수 있도록 IAM `역할` 생성  
+        사용할 서비스 `CodeDeploy` 선택, 정책에서 `AWSCodeDeployRole` 선택.
+    10. CodeDeploy 생성  
+        CodeDeploy 애플리케이션 이름 설정  
+        배포 그룹 설정  
+        서비스 역할을 바로 위에서 생성한 CodeDeploy에서 EC2에 접근할 수 있도록 하는 역할로 설정  
+    11. EC2에 S3에서 넘겨주는 zip파일을 저장할 디렉토리 생성
+    12. 프로젝트의 루트 디렉토리에 CodeDeploy를 설정하기 위한 `appspec.yml`을 생성  
+        1. CodeDeploy의 버전 설정. 프로젝트 버전이 아니므로 0.0으로 설정해야함.  
+        2. CodeDeploy에서 전달해준 파일 중 destination으로 이동시킬 파일을 source로 지정합니다. source를 `/`로 지정하면 전체 파일을 가리킨다.  
+        3. CodeDeploy가 전달해준 파일을 이동시킬 곳을 destination으로 설정
+        4. destination을 설정한 디렉토리에 파일이 존재하면 덮어쓸지에 대한 여부를 overwrite로 설정. true로 설정하면 덮어쓰게 된다.  
+    13. `.travis.yml`에서 deploy 단계에 codedeploy를 추가한다.  
+        1. codedeploy를 provider로 지정  
+        2. AWS key 엑세스 키와 비밀 엑세스 키를 가져온다.  
+        3. S3 버킷이름 설정  
+        4. S3 버킷에서 EC2로 전달할 파일 이름을 key로 설정  
+        5. 파일 확장자를 bundle_type으로 설정  
+        6. CodeDeploy 애플리케이션 이름을 application으로 설정  
+        7. CodeDeploy 애플리케이션의 배포 그룹을 deployment_group으로 설정  
+        8. AWS 서비스를 이용하고 있는 지역을 region으로 설정  
+        9. 배포가 완전히 끝날때까지 기다리도록 wait-until-deployed를 true로 설정  
+    14. 프로젝트의 루트 디렉토리에 scripts/deploy.sh 생성
+        build 결과물 중에서 *.jar 파일을 확인하고 프로젝트 이름의 jar 파일이 EC2에 실행 중인지 확인하여 실행 중이면 실행중인 프로세스를 죽인다.  
+        확인한 jar 파일에 실행권한을 추가시키고 실행시킨다.  
+        nohup 실행시 CodeDeploy가 무한 대기하는 이슈가 있기 때문에 nohup.out 파일을 표준입출력용으로 별도로 사용한다. 이렇게 하지 않으면 nohup.out파일이 생기지 않고 CodeDeploy 로그에 표준입출력이 출력된다.  
+    15. 실제로 필요한 파일만 배포하도록 `.travis.yml` 수정  
+        scripts/*sh, appspec.yml, build/libs/*.jar 이렇게만 포함해서 S3에 넘길 수 있도록 한다.  
+    16. CodeDeploy 배포 단계에서 실행할 명령어를 추가하기 위해 `appspec.yml` 수정   
+        1. CodeDeploy에서 EC2로 넘겨준 파일들이 'ec2-user' 권한을 갖도록 한다.  
+        2. 배포 단계에서 실행할 명령어, timeout, runas를 지정한다.
 
     **AWS S3가 필요한 이유 :** AWS S3는 일종의 파일 서버이며 정적 파일이나 배포 파일을 관리하는 기능을 지원.
     실제 배포는 AWS CodeDeploy를 이용하지만 CodeDeploy에는 저장하는 기능이 없다. Travis CI가 빌드한 결과물을 받아서 CodeDeploy가 가져갈 수 있도록 보관할 수 있는 공간이 필요하다.
