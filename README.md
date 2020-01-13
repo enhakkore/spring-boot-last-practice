@@ -1,3 +1,5 @@
+# spring-boot-last-practice [![Build Status](https://travis-ci.org/enhakkore/spring-boot-last-practice.svg?branch=master)](https://travis-ci.org/enhakkore/spring-boot-last-practice)  
+
 > [스프링 부트와 AWS로 혼자 구현하는 웹 서비스](https://book.naver.com/bookdb/book_detail.nhn?bid=15871738)  
 
 _이것을 끝으로 프로젝트 만들자_&#128640;
@@ -74,7 +76,7 @@ _이것을 끝으로 프로젝트 만들자_&#128640;
     코드 버전 관리를 하는 VCS 시스템에 PUSH가 되면 자동으로 테스트와 빌드가 수행되어 안정적인 배포 파일을 만드는 과정을 지속적 통합(Continuous Integration)이라고 한다.  
     빌드 결과를 자동으로 운영 서버에 무중단 배포까지 진행되는 과정을 지속적 배포(Continuous Deployment)라고 한다.  
 * **해당 프로젝트에서 CI/CD를 어떻게 구축했나요?**  
-    사용된 기술 : Travis CI, AWS S3<sup>Simple Storage Service</sup>, AWS Code0Deploy, AWS IAM  
+    사용된 기술 : Travis CI, AWS S3<sup>Simple Storage Service</sup>, AWS CodeDeploy, AWS IAM  
 
     1. Travis CI와 github 계정을 연동한 후 CI/CD를 적용할 저장소를 활성화시킨다.  
     2. 저장소의 루트 디렉토리에 Travis CI를 설정하기 위한 `.travis.yml` 파일을 만든다.  
