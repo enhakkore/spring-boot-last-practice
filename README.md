@@ -129,7 +129,7 @@ _이것을 끝으로 프로젝트 만들자_&#128640;
         확인한 jar 파일에 실행권한을 추가시키고 실행시킨다.  
         nohup 실행시 CodeDeploy가 무한 대기하는 이슈가 있기 때문에 nohup.out 파일을 표준입출력용으로 별도로 사용한다. 이렇게 하지 않으면 nohup.out파일이 생기지 않고 CodeDeploy 로그에 표준입출력이 출력된다.  
     15. 실제로 필요한 파일만 배포하도록 `.travis.yml` 수정  
-        scripts/*sh, appspec.yml, build/libs/*.jar 이렇게만 포함해서 S3에 넘길 수 있도록 한다.  
+        scripts/\*sh, appspec.yml, build/libs/\*.jar 이렇게만 포함해서 S3에 넘길 수 있도록 한다.  
     16. CodeDeploy 배포 단계에서 실행할 명령어를 추가하기 위해 `appspec.yml` 수정   
         1. CodeDeploy에서 EC2로 넘겨준 파일들이 'ec2-user' 권한을 갖도록 한다.  
         2. 배포 단계에서 실행할 명령어, timeout, runas를 지정한다.
